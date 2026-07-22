@@ -1,6 +1,9 @@
-use crate::backend::landlock::LandlockAccessEnum;
-use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
+
+use serde::{Deserialize, Serialize};
+
+#[cfg(feature = "landlock")]
+use crate::backend::landlock::LandlockAccessEnum;
 
 #[cfg(feature = "landlock")]
 #[derive(Clone, Debug, Serialize, Deserialize)]
