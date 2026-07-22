@@ -49,10 +49,18 @@ fn main() -> anyhow::Result<()> {
     let mut cmd = std::process::Command::new(&args.command[0]);
     cmd.args(&args.command[1..]);
 
+    #[allow(unused_assignments)]
+    let mut sandbox_applied = false;
+
     #[cfg(feature = "landlock")]
     {
+        sandbox_applied = true;
         let backend = backend::landlock::LandlockBackend::new(config.landlock);
         backend.sandbox_cmd(&mut cmd)?;
+    }
+
+    if !sandbox_applied {
+        panic!("No sandbox backend is active nor applied.");
     }
 
     // Exec into the command.
